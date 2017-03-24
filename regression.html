@@ -29,8 +29,8 @@
 <meta property="og:locale" content="en_US"/>
 <meta property="og:url" content="https://bstraa.github.io/regression.html"/>
 <meta property="og:type" content="article"/>
-<meta property="article:published_time" content="2015-01-28 10:20:00-08:00"/>
-<meta property="article:modified_time" content="2015-01-28 10:20:00-08:00"/>
+<meta property="article:published_time" content="2015-02-28 10:20:00-08:00"/>
+<meta property="article:modified_time" content="2015-02-28 10:20:00-08:00"/>
 <meta property="article:author" content="https://bstraa.github.io/author/ben-straate.html">
 <meta property="article:section" content="Python"/>
 <meta property="article:tag" content="regression Ben Straate"/>
@@ -73,7 +73,7 @@
   <header>
     <h1 id="regression">Web Scraping and Regression Analysis</h1>
     <p>
-          Posted on Wed 28 January 2015 in <a href="https://bstraa.github.io/category/python.html">Python</a>
+          Posted on Sat 28 February 2015 in <a href="https://bstraa.github.io/category/python.html">Python</a>
 
 
     </p>
@@ -82,6 +82,26 @@
 
   <div>
     <h2>Coming soon</h2>
+<h4>I recently did a data science project where I predicted movie revenue (total adjusted domestic gross).  It has been a valuable experience because there is a lot to learn by doing a complete project from start to finish, especially when acquiring and cleaning your own data.  It also amplifies the importance of design.  Past Ben definitely learned some valuable lessons here - it is certainly true that 'hindsight is always 20/20'!</h4>
+<h2>Background</h2>
+<h4>I used the Python library Beautiful Soup to acquire data from <a href="http://www.boxofficemojo.com/">here</a> and conducted data analysis using Pandas before doing some modelling with scikit-learn and statsmodels.</h4>
+<h4>I imagined being a company interested in predicting total adjusted domestic gross before a movie is released because it could be extremely valuable if selling products associated with a particular movie.</h4>
+<h2>Initial Exploration</h2>
+<h4><a href="http://www.boxofficemojo.com">Box Office Mojo</a> has over 16,000 movies available with an impressive amount of data, but the layout is fairly unintuitive. It took some time exploring to figure out the optimal strategy to scrape pages.  After poking around a bit, I found an alphabetical directory which contains links to individual movie pages with quite a bit of information.  I decided to scrape the links and any additional information pertaining to the corresponding movies.</h4>
+<p><a href="/images/bmojo1.png" title="Alphabetical List">alt text</a></p>
+<h4>These links allowed me navigate through even more pages, where the true gems were located.  There was a lot of data I wasn't sure would be useful, but figured I'd rather be safe than sorry.  Here's a screen shot (MAN, this movie brings me back!):</h4>
+<p><a href="/images/bmojo1.png" title="Individual Movie Page">alt text</a></p>
+<h2>Cleaning and Familarizing</h2>
+<h4>After scraping and loading my data into Pandas, there were several issues which emerged before I could get going on analysis:</h4>
+<ul>
+<li>NA values</li>
+<li>Removing dollar signs, etc.</li>
+<li>Converting strings to datetime objects.</li>
+<li>Converting strings (typically measurements) to integers.</li>
+</ul>
+<h4>After these steps, I was pretty excited to get going with further analysis and modelling.  Whoever said much of data science is not modelling was not joking!</h4>
+<h2>Analysis and Initial Modelling</h2>
+<h4>I thought I'd take a closer look at the potential variables and do a bit more exploring.  It was helpful to develop some intuition by visualizing them.</h4>
   </div>
   <div class="tag-cloud">
     <p>
