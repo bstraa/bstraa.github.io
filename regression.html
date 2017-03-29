@@ -88,7 +88,7 @@
 <h2><strong>Initial Exploration</strong></h2>
 <h4><a href="http://www.boxofficemojo.com">Box Office Mojo</a> has over 16,000 movies available with an impressive amount of data, but the layout is fairly unintuitive. It took some time exploring to figure out the optimal strategy to scrape pages.  After poking around a bit, I found an alphabetical directory which contains links to individual movie pages with quite a bit of information.  I decided to scrape the links and any additional information pertaining to the corresponding movies.</h4>
 <p><img alt="Image" src="/images/bmojo1.png" title="Alphabetical List"></p>
-<h4>These links allowed me navigate through even more pages, where the true gems were located.  There was a lot of data I wasn't sure would be useful, but figured I'd rather be safe than sorry.  Here's a screen shot (MAN, this movie brings me back!):</h4>
+<h4>These links allowed me navigate through even more pages, where the true gems were located.  There was a lot of data I wasn't sure would be useful, but figured I'd rather be safe than sorry.  Here's a screen shot (this movie <em>brings me back!</em>):</h4>
 <p><img alt="Image" src="/images/bmojo2.png" title="Individual Movie Page"></p>
 <h2><strong>Cleaning and Familarizing</strong></h2>
 <h4>After scraping and loading my data into Pandas, there were several issues which emerged before I could get going on analysis:</h4>
@@ -114,7 +114,8 @@
 <h4>I thought I'd take a closer look at potential variables and do a bit more exploring.  It was helpful to develop some intuition by visualizing them and make sure things seemed normal.</h4>
 <p><img alt="Image" src="/images/bmojo3.png" title="Plot1"></p>
 <h4>It was a bit suspicious there were so many (relatively) low budget and low revenue movies.  After further exploration, this was completely normal - there just happen to be a lot of low budget movies!</h4>
-<h4>Below is simple linear regression</h4>
+<h4>Below is simple linear regression using only one predictor in the form:</h4>
+<h4>y_{i} = \beta_{i}</h4>
 <p><img alt="Image" src="/images/bmojo4.png" title="Plot2"></p>
   </div>
   <div class="tag-cloud">
