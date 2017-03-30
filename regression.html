@@ -115,7 +115,7 @@
 <p><img alt="Image" src="/images/bmojo3.png" title="Plot1"></p>
 <h4>It was a bit suspicious there were so many (relatively) low budget and low revenue movies.  After further exploration, this was completely normal - there just happen to be a lot of low budget movies!</h4>
 <h4><strong>Below</strong> is simple linear regression visualization which uses the form:</h4>
-<h4><span class="math">\(y_{i} = \beta_{0} + \beta_{1}x_{i1} + \epsilon_{i}\)</span></h4>
+<h1><span class="math">\(y_{i} = \beta_{0} + \beta_{1}x_{i1} + \epsilon_{i}\)</span></h1>
 <h4>Where:</h4>
 <h4><span class="math">\(y_{i}\)</span> is the dependent variable (Adjusted Worldwide Revenue)</h4>
 <h4><span class="math">\(x_{i1}\)</span> is the independent variable (Adjusted Budget)</h4>
@@ -123,10 +123,13 @@
 <h4><span class="math">\(\epsilon_{i}\)</span> is the error term</h4>
 <p><img alt="Image" src="/images/bmojo4.png" title="Plot2"></p>
 <h4>Above, we minimize the residual sum of squares to find:</h4>
-<h2><span class="math">\(RSS = \sum\limits_{i=1}^n (y_{i}-\beta_{0}-\beta_{1}x_{i})^2\)</span></h2>
-<h4>This is the same as maximizing the likelihood of:</h4>
+<h1><span class="math">\(RSS = \sum\limits_{i=1}^n (y_{i}-\beta_{0}-\beta_{1}x_{i})^2\)</span></h1>
+<h4>Which is the same as maximizing the likelihood of:</h4>
 <p><img alt="Image" src="/images/math1.png" title="Math1"></p>
-<h4>There is some interesting discussion about this <a href="http://stats.stackexchange.com/questions/143705/maximum-likelihood-method-vs-least-squares-method">here</a>.</h4>
+<h4>And gives the values:</h4>
+<h4>\beta_{0} = 8045000</h4>
+<h4>\beta_{1} = 2.7846</h4>
+<h4>There is some interesting discussion about MLE and RSS <a href="http://stats.stackexchange.com/questions/143705/maximum-likelihood-method-vs-least-squares-method">here</a>.</h4>
 <h2><strong>Further Analysis and Modelling</strong></h2>
 <h5><em>Coming soon!</em></h5>
 <script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
