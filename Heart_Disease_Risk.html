@@ -93,9 +93,9 @@
 #### Our best model involved bagging a few different classifiers including logistic regression, SVC, and random forest.  We achieved ~85% accuracy and a similar f1 score, which was close to some of the top scores in [academic papers](http://www.ijmlc.org/vol5/544-C039.pdf).-->
 
 <h2><strong>Initial Exploration</strong></h2>
-<h4>Further exploration shows the breakdown of the nominal dependent variable which we are trying to predict.  Nominal values can be tricky - the difference between None (far left) and Low (2nd to left) may be much different than from Low to Medium (center).</h4>
+<h4>Initial exploration shows the breakdown of the nominal dependent variable which we are trying to predict.  Nominal values can be tricky - the difference between None (far left) and Low (2nd to left) may be much different than from Low to Medium (center).</h4>
 <p><img alt="uci" src="/images/hd2.png"></p>
-<h4>At this point, we needed to make a decision about how to handle our dependent variable.  Nominal variables are <em>tricky</em> - they can be treated as continuous or aggregated as binary outcomes.  We decided to treat our dependent variable as binary - mainly because for our product we wanted to maintain high interpretability for the user.  Logistic regression also seemed like a good fit - quantifying the actual risk of heart disease would probably be more helpful to a user than a simple 'at risk' or 'not at risk'.</h4>
+<h4>At this point, we needed to make a decision about how to handle our dependent variable.  Nominal variables are <em>tricky</em> - they can be treated as continuous or aggregated as binary outcomes.  We decided to treat our dependent variable as binary - mainly because for our product.   We wanted to maintain high interpretability for the user.  Logistic regression also seemed like a good fit - quantifying the actual risk of heart disease would probably be more helpful to a user than a simple 'at risk' or 'not at risk'.</h4>
 <p><img alt="uci" src="/images/hd3.png"></p>
 <h4><em>This will be updated soon!</em></h4>
   </div>
