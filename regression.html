@@ -136,6 +136,8 @@
 <h4>Specifically, our initial model has a decent adjusted R-squared (which is the same as R-squared, in this case):</h4>
 <h4><span class="math">\(R_{adj}^2 = .439\)</span></h4>
 <h4>Which means our model can explain nearly 44% of the variance in Adjusted Worldwide Revenue around it's mean.</h4>
+<h4>However, after analyzing the residuals it is clear our model violates linear regression assumptions - the residuals appear heteroscedastic.  There is a glimpse of this because of the cone shape (lighter red in plot above) variance around my regression line.  After a closer look, our suspicions are revealed:</h4>
+<p><img alt="Image" src="/images/bmojo5.png" title="Residuals"></p>
 <h4>There is some interesting discussion about MLE and RSS <a href="http://stats.stackexchange.com/questions/143705/maximum-likelihood-method-vs-least-squares-method">here</a>.</h4>
 <h2><strong>Further Analysis and Modelling</strong></h2>
 <h4>I continued to explore different variables and evaluate the residuals and regressions.  Specially, I wanted to make sure everthing looked normal to evaluate whether I needed to transform variables or had some insights into better features to engineer.</h4>
