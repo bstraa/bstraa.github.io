@@ -139,9 +139,10 @@
 <h4>Which means our model can explain nearly 44% of the variance in Adjusted Worldwide Revenue around it's mean.</h4>
 <h4><strong>However</strong>, after analyzing the residuals it is clear our model violates linear regression assumptions - the residuals appear heteroscedastic.  There is a glimpse of this because of the cone shape (lighter red in plot above) variance around my regression line.  After a closer look, our suspicions are confirmed:</h4>
 <p><img alt="Image" src="/images/bmojo5.png" title="Residuals"></p>
-<h4>I decided to try a few variable transformations and settled on applying the squareroot to both variables (independent and dependent).  The relationships are now more linear.  Although there is still heteroscedacity, it has greatly improved.   The regression plot and residual plots are below:</h4>
-<p><img alt="Image" src="/images/bmojo11_cube.png" title="Model">
-<img alt="Image" src="/images/bmojo10_cube.png" title="Residuals"></p>
+<h4>I decided to try a few variable transformations and settled on applying the squareroot to both variables (independent and dependent).  The relationships are now more linear.  Although there is still slight heteroscedacity, it has greatly improved.   The regression plot and residual plots are below:</h4>
+<p><img alt="Image" src="/images/screenshot.png" title="Model">
+<img alt="Image" src="/images/bmojo10_cube.png" title="Residuals Sqrt">
+<img alt="Image" src="/images/screenshot2.png" title="Residuals Log"></p>
 <h4>The <span class="math">\(R_{adj}^2\)</span> improved to .478 and p-value remained &lt;.001.</h4>
 <h2><strong>Further Analysis and Modelling</strong></h2>
 <h4>I continued to explore different variables and evaluate the residuals and regressions.  Specifically, I wanted to make sure everything looked normal to evaluate whether I needed to transform variables or had some insights into better features to engineer.</h4>
