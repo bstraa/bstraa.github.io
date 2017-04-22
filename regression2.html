@@ -1,0 +1,251 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,400italic' rel='stylesheet' type='text/css'>
+
+    <link rel="stylesheet" type="text/css" href="https://bstraa.github.io/theme/stylesheet/style.min.css">
+
+  <link rel="stylesheet" type="text/css" href="https://bstraa.github.io/theme/pygments/github.min.css">
+  <link rel="stylesheet" type="text/css" href="https://bstraa.github.io/theme/font-awesome/css/font-awesome.min.css">
+
+
+
+
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="" />
+
+
+<meta name="author" content="Ben Straate" />
+<meta name="description" content="Web scraping and regression for movies." />
+<meta name="keywords" content="regression Ben Straate">
+<meta property="og:site_name" content="Ben Straate"/>
+<meta property="og:title" content="Web Scraping and Regression Analysis"/>
+<meta property="og:description" content="Web scraping and regression for movies."/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="https://bstraa.github.io/regression2.html"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2016-02-28 10:20:00-08:00"/>
+<meta property="article:modified_time" content="2016-12-28 10:20:00-08:00"/>
+<meta property="article:author" content="https://bstraa.github.io/author/ben-straate.html">
+<meta property="article:section" content="Python"/>
+<meta property="article:tag" content="regression Ben Straate"/>
+<meta property="og:image" content="/images/me.png">
+
+  <title>Ben Straate &ndash; Web Scraping and Regression Analysis</title>
+
+</head>
+<body>
+  <aside>
+    <div>
+      <a href="https://bstraa.github.io">
+        <img src="/images/me.png" alt="Ben Straate" title="Ben Straate">
+      </a>
+      <h1><a href="https://bstraa.github.io">Ben Straate</a></h1>
+
+
+      <nav>
+        <ul class="list">
+          <li><a href="https://bstraa.github.io/pages/about-me.html">About Me</a></li>
+          <li><a href="https://bstraa.github.io/pages/Connect.html">Connect</a></li>
+
+          <li><a href="https://www.linkedin.com/in/benstraate" target="_blank">LinkedIn</a></li>
+          <li><a href="https://github.com/bstraa" target="_blank">Github</a></li>
+        </ul>
+      </nav>
+
+      <ul class="social">
+        <li><a class="sc-You can add links in your config file" href="#" target="_blank"><i class="fa fa-You can add links in your config file"></i></a></li>
+        <li><a class="sc-Another social link" href="#" target="_blank"><i class="fa fa-Another social link"></i></a></li>
+      </ul>
+    </div>
+
+
+  </aside>
+  <main>
+
+
+<article class="single">
+  <header>
+    <h1 id="regression2">Web Scraping and Regression Analysis</h1>
+    <p>
+          Posted on Sun 28 February 2016 in <a href="https://bstraa.github.io/category/python.html">Python</a>
+
+
+    </p>
+  </header>
+
+
+  <div>
+    <h2><strong>Background</strong></h2>
+<h4>Who doesn't like movies? I recently did a data science project where I scraped data from <a href="http://www.boxofficemojo.com/">Box Office Mojo</a>, and got to explore some questions I had about the industry.</h4>
+<ul>
+<li>
+<h4>How can adjusted revenue be predicted?</h4>
+</li>
+<li>
+<h4>Why did some movies flop big time? (I'd bet you've never heard of Mars Needs Moms!)</h4>
+</li>
+<li>
+<h4>Which movies were surprisingly popular? (Remember The Blair Witch Project!?)</h4>
+</li>
+</ul>
+<h2><strong>Acquiring Data</strong></h2>
+<h4><a href="http://www.boxofficemojo.com">Box Office Mojo</a> has data on over 16,000 movies --- buried within a fairly unintuitive and complex layout.   This demanded some exploring to figure out the optimal strategy.</h4>
+<h4>After poking around a bit, I found an alphabetical directory which contains links to individual movie pages and other information.  I decided to scrape the links and any additional data.</h4>
+<p><img alt="Image" src="/images/bmojo1.png" title="Alphabetical List"></p>
+<h4>These links allowed me navigate through even more pages -where the true gems were located.  Although I wasn't sure everything would be useful, erring on the cautious side seemed wise.  Here's a screen shot (this movie <em>brings me back!</em>):</h4>
+<p><img alt="Image" src="/images/bmojo2.png" title="Individual Movie Page"></p>
+<h4>Pandas works very well with nested dictionaries --- I created a Python script to pickle them in preparation for the next steps.</h4>
+<h2><strong>Cleaning</strong></h2>
+<h4>After scraping and loading my data into Pandas, there were several issues which emerged before I could get going on analysis:</h4>
+<ul>
+<li>
+<h4><strong>NA values</strong> - After looking into these further, some movies (specifically older ones) didn't have much data.  I had to drop these after ensuring there wasn't an error in my scraper.</h4>
+</li>
+<li>
+<h4><strong>Removing dollar signs, etc.</strong></h4>
+</li>
+<li>
+<h4><strong>Converting strings to datetime objects or integers</strong> - Many values had datatypes which were unsuitable for any statistical analysis, so I had to convert them.</h4>
+</li>
+<li>
+<h4><strong>Adjusting prices for inflation</strong> - I was mindful to use the built-in adjuster when scraping, but I noticed it didn't adjust <em>all</em> prices.  I had to adjust other prices for inflation.</h4>
+</li>
+</ul>
+<h4>After these steps, I was pretty excited to get going on next steps.  Whoever said much of data science is not modelling was <em>not</em> joking!  I wanted to figure out what is predictive of worldwide revenue.</h4>
+<h2><strong>Exploration</strong></h2>
+<h4>It was helpful to develop some intuition by visualizing variables --- I was curious to see how they related to worldwide revenue.</h4>
+<h4>Pandas and seaborn makes this easy and enjoyable (the visualizations are beautiful!) --- below is a heatmap for the correlations of continuous variables.</h4>
+<p><img alt="Image" src="/images/pearson.png" title="Pearson"></p>
+<h4>I also wanted to look into how release month and rating related to worldwide revenue.  I really prefer violinplots to barplots or boxplots --- it gives a clearer picture of the distributions.</h4>
+<p><img alt="Image" src="/images/month.png" title="Month"></p>
+<h4>Above we see that adjusted worldwide revenue <strong>tends</strong> to be larger for months April, May, June, November, and December.</h4>
+<p><img alt="Image" src="/images/rating.png" title="Rating"></p>
+<h4>Observe from obove that G rated movies have the highest mean adjusted worldwide revenue, with PG and PG-13 movies varying the most --- and making up a big chunk of the highest AWR.</h4>
+<p><img alt="Image" src="/images/bmojo3.png" title="Plot1"></p>
+<h4>I wanted to continue exploring variables to see if there was a linear relationship between them and adjusted worldwide revenue.  I started out with using simple linear regression, formally:</h4>
+<h1><span class="math">\(y_{i} = \beta_{0} + \beta_{1}x_{i1} + \epsilon_{i}\)</span><!--, where:--></h1>
+<p>&lt;!--#### <span class="math">\(y_{i}\)</span> is the dependent variable (Adjusted Worldwide Revenue) </p>
+<h4><span class="math">\(x_{i1}\)</span> is the independent variable (Adjusted Budget)</h4>
+<h4><span class="math">\(\beta_{0}\)</span> is the intercept</h4>
+<h4><span class="math">\(\epsilon_{i}\)</span> is the error term--&gt;</h4>
+<h4>Formally:</h4>
+<h4><span class="math">\(H_{0}: \beta_{1} = 0\)</span></h4>
+<h4><span class="math">\(H_{A}: \beta_{1} \neq 0\)</span></h4>
+<h4><strong>Below</strong> is the simple linear regression for adjusted budget:</h4>
+<p><img alt="Image" src="/images/bmojo4.png" title="Plot2"></p>
+<h4>Above, we minimized the residual sum of squares to find our line of best fit, which is the same as maximizing the likelihood of <span class="math">\(\beta_{0}\)</span> and <span class="math">\(beta_{1}\)</span>.  (There is some interesting discussion about MLE and RSS <a href="http://stats.stackexchange.com/questions/143705/maximum-likelihood-method-vs-least-squares-method">here</a>.)</h4>
+<!--# $RSS = \sum\limits_{i=1}^n (y_{i}-\beta_{0}-\beta_{1}x_{i})^2$ -->
+
+<!--
+#### Which is the same as maximizing the likelihood of (assuming normally distributed residuals):-->
+
+<p><img alt="Image" src="/images/math1.png" title="Math1"></p>
+<h4>The p-value for <span class="math">\(\beta_{1} &lt; .001\)</span> and our 95% CI is (2.658, 2.911), so we can reject <span class="math">\(H_{0}\)</span>.   Specifically, our initial model has a decent adjusted R-squared of .439 (which is the same as R-squared, in this case).  This model can explain nearly 44% of the variance in Adjusted Worldwide Revenue around it's mean - not bad!</h4>
+<h4><strong>However</strong>, after analyzing the residuals it is clear our model violates linear regression assumptions - the residuals appear heteroscedastic.  There is a glimpse of this because of the cone shape (lighter red in plot above) variance around my regression line.  After a closer look, our suspicions are confirmed:</h4>
+<p><img alt="Image" src="/images/bmojo5.png" title="Residuals"></p>
+<h4>I decided to try a few variable transformations and settled on applying the squareroot to both variables (independent and dependent).  The relationships are now more linear.  Although there is still slight heteroscedacity, it has greatly improved.   In reality, the assumptions of linear regression are rarely perfectly met, but this seems reasonable enough to work with.   Checkout the regression plot and residuals below:</h4>
+<p><img alt="Image" src="/images/screenshot.png" title="Model"></p>
+<h4>The <span class="math">\(R_{adj}^2\)</span> improved to .478 and p-value remained &lt;.001.  Let's keep going!</h4>
+<h2><strong>Further Analysis and Modelling</strong></h2>
+<h4>I continued to explore different variables and evaluate the residuals and regressions.  Specifically, I wanted to make sure everything looked normal to evaluate whether I needed to transform variables or had some insights into better features to engineer.</h4>
+<h4>Finally, <span class="math">\(R_{adj}^2\)</span> improved to ~.61 after taking including features for month, number of opening theatres, and runtime.  I really liked using Python's statsmodels library because it's great for more statistical purposes with it's reporting tools.  However, sci-kit learn has more optionality when it comes to tuning hyper parameters.  It was time to feed my curiousity and jump in.</h4>
+<p><img alt="Image" src="/images/bmojo8.png" title="JumpIn"></p>
+<h2><strong>Final Model and Validation</strong></h2>
+<h4>Coming soon!</h4>
+<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    var location_protocol = (false) ? 'https' : document.location.protocol;
+    if (location_protocol !== 'http' && location_protocol !== 'https') location_protocol = 'https:';
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = location_protocol + '//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+    mathjaxscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
+  </div>
+  <div class="tag-cloud">
+    <p>
+      <a href="https://bstraa.github.io/tag/regression-ben-straate.html">regression Ben Straate</a>
+    </p>
+  </div>
+
+
+
+
+</article>
+
+    <footer>
+<p>&copy; Ben Straate </p>
+<p>    Powered by <a href="http://getpelican.com" target="_blank">Pelican</a> - <a href="https://github.com/alexandrevicenzi/flex" target="_blank">Flex</a> theme by <a href="http://alexandrevicenzi.com" target="_blank">Alexandre Vicenzi</a>
+</p>    </footer>
+  </main>
+
+
+
+
+
+<script type="application/ld+json">
+{
+  "@context" : "http://schema.org",
+  "@type" : "Blog",
+  "name": " Ben Straate ",
+  "url" : "https://bstraa.github.io",
+  "image": "/images/me.png",
+  "description": ""
+}
+</script>
+</body>
+</html>
