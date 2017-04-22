@@ -145,10 +145,19 @@
 <h4>The <span class="math">\(R_{adj}^2\)</span> improved to .478 and p-value remained &lt;.001.  Let's keep going!</h4>
 <h2><strong>Further Analysis and Modelling</strong></h2>
 <h4>I continued to explore different variables and evaluate the residuals and regressions.  Specifically, I wanted to make sure everything looked normal to evaluate whether I needed to transform variables or had some insights into better features to engineer.</h4>
-<h4>Finally, <span class="math">\(R_{adj}^2\)</span> improved to ~.61 after taking including features for month, number of opening theatres, and runtime.  I really liked using Python's statsmodels library because it's great for more statistical purposes with it's reporting tools.  However, sci-kit learn has more optionality when it comes to tuning hyper parameters.  It was time to feed my curiousity and jump in!</h4>
+<h4>Finally, <span class="math">\(R_{adj}^2\)</span> improved to ~.61 after taking including features for month, number of opening theatres, and runtime.  I really liked using Python's statsmodels library because it's great for more statistical purposes with it's reporting tools.  However, sci-kit learn has more optionality when it comes to tuning hyper parameters. because of the cross validation tools.  Time to jump in!</h4>
 <p><img alt="Image" src="/images/bmojo8.png" title="JumpIn"></p>
 <h2><strong>Final Model and Validation</strong></h2>
-<h4>Coming soon!</h4>
+<h4>I wanted to check out the cross validation tools in sci-kit learn (does anyone say Sklearn?) so  I experimented with Lasso (L1) and Ridge (L2) regularization, but ultimately settled on ElasticNet (which uses both).</h4>
+<h4>The <a href="http://scikit-learn.org/stable/modules/generated/sklearn.linear_model.ElasticNetCV.html#sklearn.linear_model.ElasticNetCV">ElasticNetCV module</a> is extremely powerful - it will perform K-Fold cross validation and choose the best parameters for you.</h4>
+<h4>After training my model on 2/3 of the data using K-Fold ElasticNetCV, it performed well on the unseen data with <span class="math">\(R_{adj}^2\)</span> ~ .65</h4>
+<h2><strong>What I Learned</strong></h2>
+<h4>Although it could have been faster to automate building the model, I really learned a lot by going step-by-step and evaluating it myself.  It was also really helpful to develop an understanding of the data beforehand.</h4>
+<h4>I also learned how to webscrape and handle a plethora of inevitable errors.  BeautifulSoup was pretty time consuming, - I would like to try out Selenium in the future to see how it compares.</h4>
+<h2><strong>Further Steps</strong></h2>
+<h4>There are more economic indicators and data available about the entertainment industry.  It would be great to have a look and zoom in on trends and seasonal effects.  Also, it would be interesting to analyze social media or wikipedia.</h4>
+<h4>Additionally, depending on the context, I would like to optimize my code and even automate a lot of the modelling.  I think that would save a lot of time and possibly even be re-usable for other projects.</h4>
+<h4>I really enjoyed this project - I thought it was a good overall view of the data science process.  Ultimately, data scraping can be an extremely useful tool --- not every dataset is nice and neat like in academia or kaggle.</h4>
 <script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
     var align = "center",
         indent = "0em",
