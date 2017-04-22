@@ -129,22 +129,13 @@
 <h4>Observe from obove that G rated movies have the highest mean adjusted worldwide revenue, with PG and PG-13 movies varying the most --- and making up a big chunk of the highest AWR.</h4>
 <p><img alt="Image" src="/images/bmojo3.png" title="Plot1"></p>
 <h4>I wanted to continue exploring variables to see if there was a linear relationship between them and adjusted worldwide revenue.  I started out with using simple linear regression, formally:</h4>
-<h1><span class="math">\(y_{i} = \beta_{0} + \beta_{1}x_{i1} + \epsilon_{i}\)</span><!--, where:--></h1>
-<p>&lt;!--#### <span class="math">\(y_{i}\)</span> is the dependent variable (Adjusted Worldwide Revenue) </p>
-<h4><span class="math">\(x_{i1}\)</span> is the independent variable (Adjusted Budget)</h4>
-<h4><span class="math">\(\beta_{0}\)</span> is the intercept</h4>
-<h4><span class="math">\(\epsilon_{i}\)</span> is the error term--&gt;</h4>
+<h1><span class="math">\(y_{i} = \beta_{0} + \beta_{1}x_{i1} + \epsilon_{i}\)</span></h1>
 <h4>Formally:</h4>
 <h4><span class="math">\(H_{0}: \beta_{1} = 0\)</span></h4>
 <h4><span class="math">\(H_{A}: \beta_{1} \neq 0\)</span></h4>
 <h4><strong>Below</strong> is the simple linear regression for adjusted budget:</h4>
 <p><img alt="Image" src="/images/bmojo4.png" title="Plot2"></p>
 <h4>Above, we minimized the residual sum of squares to find our line of best fit, which is the same as maximizing the likelihood of <span class="math">\(\beta_{0}\)</span> and <span class="math">\(beta_{1}\)</span>.  (There is some interesting discussion about MLE and RSS <a href="http://stats.stackexchange.com/questions/143705/maximum-likelihood-method-vs-least-squares-method">here</a>.)</h4>
-<!--# $RSS = \sum\limits_{i=1}^n (y_{i}-\beta_{0}-\beta_{1}x_{i})^2$ -->
-
-<!--
-#### Which is the same as maximizing the likelihood of (assuming normally distributed residuals):-->
-
 <p><img alt="Image" src="/images/math1.png" title="Math1"></p>
 <h4>The p-value for <span class="math">\(\beta_{1} &lt; .001\)</span> and our 95% CI is (2.658, 2.911), so we can reject <span class="math">\(H_{0}\)</span>.   Specifically, our initial model has a decent adjusted R-squared of .439 (which is the same as R-squared, in this case).  This model can explain nearly 44% of the variance in Adjusted Worldwide Revenue around it's mean - not bad!</h4>
 <h4><strong>However</strong>, after analyzing the residuals it is clear our model violates linear regression assumptions - the residuals appear heteroscedastic.  There is a glimpse of this because of the cone shape (lighter red in plot above) variance around my regression line.  After a closer look, our suspicions are confirmed:</h4>
