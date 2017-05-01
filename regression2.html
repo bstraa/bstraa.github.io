@@ -144,12 +144,17 @@
 <h4>The <span class="math">\(R_{adj}^2\)</span> improved to .478 and p-value remained &lt;.001.  Let's keep going!</h4>
 <h2><strong>Further Analysis and Modelling</strong></h2>
 <h4>I continued to explore different variables and evaluate the residuals and regressions.  Specifically, I wanted to make sure everything looked normal to evaluate whether I needed to transform variables or had some insights into better features to engineer.</h4>
-<h4>Finally, <span class="math">\(R_{adj}^2\)</span> improved to ~.61 after taking including features for month, number of opening theatres, and runtime.  I really liked using Python's statsmodels library because it's great for more statistical purposes with it's reporting tools.  However, sci-kit learn has more optionality when it comes to tuning hyper parameters. because of the cross validation tools.  Time to jump in!</h4>
+<h4>Finally, <span class="math">\(R_{adj}^2\)</span> improved to ~.61 after taking including features for month, number of opening theatres, and runtime.  I really liked using Python's statsmodels library because it's great for more statistical purposes with it's reporting tools.</h4>
+<h4>I also wanted to see if our model could explain why 'The Blair Witch Project' was so successful and why 'Mars Needs Moms' flopped so hard.  Below are the values for these movies:</h4>
+<p><img alt="Image" src="/images/blairmars.png" title="Values"></p>
+<h4>'The Blair Witch Project' had nearly 10 times more worldwide revenue, despite having a lower runtime, less opening theatres, and a far lower budget than 'Mars Needs Moms'.  However, I think the <em>timing</em> for the BWP was especially important - releasing a movie targeting teens and young adults near popular months could be a recipe for the viral movie it was.</h4>
+<h4>After looking a little closer, the BWP was released in early July - when the target audience had summer break from school.  I'm hesitant to delve any deeper into the emotional appeal of either film, but it'd be interesting to see how prevalent viral films are in popular months.</h4>
+<h4>After this, I wanted to move to Sci-kit learn because it has more optionality when it comes to tuning hyper parameters using cross validation tools.  Time to jump in!</h4>
 <p><img alt="Image" src="/images/bmojo8.png" title="JumpIn"></p>
 <h2><strong>Final Model and Validation</strong></h2>
 <h4>I wanted to check out the cross validation tools in sci-kit learn (does anyone say Sklearn?) so  I experimented with Lasso (L1) and Ridge (L2) regularization, but ultimately settled on ElasticNet (which uses both).</h4>
 <h4>The <a href="http://scikit-learn.org/stable/modules/generated/sklearn.linear_model.ElasticNetCV.html#sklearn.linear_model.ElasticNetCV">ElasticNetCV module</a> is extremely powerful - it will perform K-Fold cross validation and choose the best parameters for you.</h4>
-<h4>After training my model on 2/3 of the data using K-Fold ElasticNetCV, it performed well on the unseen data with <span class="math">\(R_{adj}^2\)</span> ~ .65</h4>
+<h4>After training my model on 2/3 of the data using K-Fold ElasticNetCV, it performed well on the unseen data with <span class="math">\(R_{adj}^2\)</span> ~ .65 which wasn't too bad!</h4>
 <h2><strong>What I Learned</strong></h2>
 <h4>Although it could have been faster to automate building the model, I really learned a lot by going step-by-step and evaluating it myself.  It was also really helpful to develop an understanding of the data beforehand.</h4>
 <h4>I also learned how to webscrape and handle a plethora of inevitable errors.  BeautifulSoup was pretty time consuming, - I would like to try out Selenium in the future to see how it compares.</h4>

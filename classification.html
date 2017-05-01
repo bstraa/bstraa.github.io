@@ -86,6 +86,29 @@
 <h4>Much of their success <a href="http://money.cnn.com/2016/09/08/investing/wells-fargo-created-phony-accounts-bank-fees/">(hopefully!)</a> stems from intelligently lending money to borrowers.  Essentially, they are excellent at betting on specific loans having a positive expected value given a certain amount of risk.</h4>
 <h4>I wanted to take a closer look at their strategy and see if it was possible to beat their profitability with my own model.  I created a 'toy game' which looked at borrowers to determine if their loan would be a profitable investment for a bank.</h4>
 <h4>I highly value 'toy games' because they help develop a solid (yet simple!) understanding of something much more complex.  It's dangerous to get caught in a thick intellectual fog because it's too easy to miss the important stuff.</h4>
+<h2><strong>Acquiring Data</strong></h2>
+<h4>I acquired publicly available data which was preprocessed.  It consisted of 100,000+ datapoints about the bank's decisions and data containing information about the borrower.</h4>
+<h2><strong>Exploration</strong></h2>
+<h4>Here is a look at our dependent variable, profitability.  As this is a 'toy game', the values include only -1, 0, and 1.  These correspond to a loss, loan rejection (no action), and a profit.</h4>
+<p><img alt="bank_profitability" src="/images/banks1.png"></p>
+<h4>There isn't any profitability information about loans which weren't granted (values of 0) --- I dropped these.</h4>
+<h4>Although the data was preprocessed, it did require imputing NaN values.  The two distinct groups of NaN values which needed to be imputed were:</h4>
+<ul>
+<li>
+<h4>1) Features which contained information about repaying various types of previous loans where the borrower didn't ever have any loans.</h4>
+</li>
+<li>
+<h4>2) Features which contained averages of previous debt (like credit cards) where the borrower didn't have a credit line to begin with.</h4>
+</li>
+</ul>
+<h4>I imputed values for these which were outside the range of normal values.  I chose -1 because in addition to being outside the range it has high interpretability.</h4>
+<h2><strong>Further Analysis and Modelling</strong></h2>
+<h4>I fit a decision tree to determine which variables are important:</h4>
+<p><img alt="bank_profitability_important_features" src="/images/banks2.png"></p>
+<h4>Both checking and savings amounts have a high gini index (and entropy) because they are nodes which effectively separate the classes.</h4>
+<h2><strong>Final Model and Validation</strong></h2>
+<h2><strong>What I learned</strong></h2>
+<h2><strong>Further Steps</strong></h2>
 <h3><em>Will be updated soon!</em></h3>
   </div>
   <div class="tag-cloud">
