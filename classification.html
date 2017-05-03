@@ -83,11 +83,11 @@
     <h2><strong>Background</strong></h2>
 <h4>Have you ever noticed the plethora of banks in nearly every city skyline worldwide?  If you haven't, keep this in mind next time your near downtown --- it is <em>so true</em>.</h4>
 <p><img alt="Banks" src="/images/banks.png" title="Skyline"></p>
-<h4>Much of their success <a href="http://money.cnn.com/2016/09/08/investing/wells-fargo-created-phony-accounts-bank-fees/">(hopefully!)</a> stems from intelligently lending money to borrowers.  Essentially, they are excellent at betting on specific loans having a positive expected value given a certain amount of risk.</h4>
+<h4>Much of their success  stems from intelligently lending money to borrowers.  Essentially, they are excellent at betting on specific loans having a positive expected value given a certain amount of risk.</h4>
 <h4>I wanted to take a closer look at their strategy and see if it was possible to beat their profitability with my own model.  I created a 'toy game' which looked at borrowers to determine if their loan would be a profitable investment for a bank.</h4>
 <h4>I highly value 'toy games' because they help develop a solid (yet simple!) understanding of something much more complex.  It's dangerous to get caught in a thick intellectual fog because it's too easy to miss the important stuff.</h4>
 <h2><strong>Acquiring Data</strong></h2>
-<h4>I acquired publicly available data which was preprocessed.  It consisted of 100,000+ datapoints about the bank's decisions and data containing information about the borrower.</h4>
+<h4>I acquired publicly available data which was preprocessed.  It consisted of 100,000+ datapoints from two tables about the bank's decisions and data containing information about the borrower.</h4>
 <h2><strong>Exploration</strong></h2>
 <h4>Here is a look at our dependent variable, profitability.  As this is a 'toy game', the values include only -1, 0, and 1.  These correspond to a loss, loan rejection (no action), and a profit.</h4>
 <p><img alt="bank_profitability" src="/images/banks1.png"></p>
@@ -103,12 +103,26 @@
 </ul>
 <h4>I imputed values for these which were outside the range of normal values.  I chose -1 because in addition to being outside the range it has high interpretability.</h4>
 <h2><strong>Further Analysis and Modelling</strong></h2>
-<h4>I fit a decision tree to determine which variables are important:</h4>
+<h4>I wanted to take a close look at variables in the context of profitable vs non-profitable loans to get a better feel for the data before doing any modelling.  It was interesting to see how loan profitability by the number of dependents and also yearly salary varied.</h4>
+<p><img alt="bank_dependents" src="/images/banksdependents.png">
+<img alt="bank_salary" src="/images/bankssalary.png"></p>
+<h4>The plots below show the banks tend to be profitable lending to people with higher checking and savings account balances.  This makes a lot of sense --- lending to someone with more cash in hand certainly seems less risky.</h4>
+<p><img alt="banks_checking" src="/images/bankschecking.png">
+<img alt="banks_savings" src="/images/bankssaving.png"></p>
+<h4>I also fit a decision tree to determine which variables are important and both checking and savings amounts have a high gini index (and entropy) because they are nodes which effectively separate the classes and exhibit high information gain.</h4>
 <p><img alt="bank_profitability_important_features" src="/images/banks2.png"></p>
-<h4>Both checking and savings amounts have a high gini index (and entropy) because they are nodes which effectively separate the classes.</h4>
-<h2><strong>Final Model and Validation</strong></h2>
-<h2><strong>What I learned</strong></h2>
-<h2><strong>Further Steps</strong></h2>
+<h4>After training a decision tree and testing it, I got my first look into how this basic algorithm compared to the banks.  It didn't do as well!  As you'll see below, our model is about 4% <em>less</em> profitable.</h4>
+<p><img alt="banks_profit" src="/images/banksprofit.png"></p>
+<h4>I wanted to see if there was any improvement with Random Forests, as DT's tend to perform worse and generally overfit.  They proved to be a much more profitable model --- 11% <em>more</em> profitable than the banks!</h4>
+<!--## **Final Model and Validation**
+-->
+
+<!--## **What I learned**
+-->
+
+<!--## **Further Steps**
+-->
+
 <h3><em>Will be updated soon!</em></h3>
   </div>
   <div class="tag-cloud">

@@ -81,34 +81,38 @@
 
   <div>
     <h2><strong>Background</strong></h2>
-<h4>Who doesn't like heart disease? <em>Aah-em</em> --- let me rephrase that!  Who likes not having heart disease? I recently did a project with a group at <a href="http://thisismetis.com">Metis</a> where we created a product which would help individuals assess their risk.  We had some questions:</h4>
-<ul>
-<li>
-<h4>How can heart disease be predicted?</h4>
-</li>
-<li>
-<h4>How much do lifestlye choices matter?</h4>
-</li>
-<li>
-<h4>Is someone with a family history of heart disease doomed?</h4>
-</li>
-</ul>
-<h4>It is <em>really</em> frustrating not knowing typical numbers when doctors take measurements.  What do those numbers <em>mean</em>?  Our app makes your diagnostics interpretable!   Given user input from our web app (created using Flask), users would receive an overall heart disease risk score from 0 to 100, visualized using <a href="https://d3js.org/">D3.js</a>.  Below is a snippet of our custom gauge inspired by <a href="http://bl.ocks.org/msqr/3202712">this</a>.</h4>
+<h4>Who doesn't like heart disease? <em>Aah-em</em> --- let me rephrase that!  Who likes not having heart disease? I did a project with a group of data scientists at <a href="http://thisismetis.com">Metis</a> where I was elected the role of Product Manager for our data science product.</h4>
+<h4>We created a product which would help individuals assess their risk because it is <em>really</em> frustrating not knowing typical numbers when doctors take measurements.  What do those numbers <em>mean</em>?   How do they work <em>together</em> to determine my risk? What is my risk if I have family history of heart disease but I take care of myself?</h4>
+<h4>Our app makes your diagnostics interpretable!   Given user input from our web app (created using Flask), users would receive an overall heart disease risk score from 0 to 100, visualized using <a href="https://d3js.org/">D3.js</a>.  Below is a snippet of our custom gauge inspired by <a href="http://bl.ocks.org/msqr/3202712">this</a>.</h4>
 <p><img alt="D3" src="/images/d3_heart_disease_guage.png"></p>
-<h2><strong>Acquiring Data &amp; Cleaning</strong></h2>
+<h2><strong>Data</strong></h2>
 <h4>Data was used from the <a href="https://archive.ics.uci.edu/ml/datasets/Heart+Disease">UCI Machine Learning Repository</a>.  There's been a lot of academic papers relating to this dataset, so it was accessible by downloading the .csv files and using python's pandas library for cleaning and exploration.</h4>
 <h4>Most of the data had been processed and was (unrealistically!) clean.  There were only a few values we needed to impute, so it wasn't long before we could get to exploring.</h4>
+<p><img alt="uci" src="/images/hd1.png"></p>
+<h2><strong>Our Product</strong></h2>
+<h4>It was important for us to consider the user before getting too ahead of ourselves.  We envisioned the typical user as being away from the doctor's office, but very concerned about their health.</h4>
+<h4>But how can we design our product to reflect the users health concerns without using more advanced measurements, typically perfomed by a doctor?</h4>
+<p><img alt="ponder" src="/images/ponder.png"></p>
+<h4>Our solution was to create some optionality within our input form on the web app we created using Flask.  We wanted to create two models: a simple model with features <em>everyone</em> would know such as: Age, Sex, Family History, Smoking History, etc. and a more complex model which complemented the simple one by adding metrics that <em>some</em> people would know like Blood Pressure and Cholesterol.</h4>
+<h4>Furthermore, we wanted to optimize our model towards recall.  We wanted to ensure that people at risk for heart disease would be identified as such.  We built a voting classifier that used GaussianNB, SVM, and logistic regression.</h4>
+<h2><strong>What I learned</strong></h2>
+<h4>I really liked this project and enjoyed being the Product Manager for the diverse group --- it was valuable having a 'birds eye view' of our work and help make decisions about the product around a strict timeline.</h4>
+<h4>I learned a lot the importance of delegating tasks to meet our deadlines in time.  Paradoxically, it was equally important to collaborate on important decisions or specific challenges.</h4>
 <!--#### This project involved the complete data science process: data cleaning, EDA, imputing missing values, fitting and evaluating classification models, and visualizing the results.  It was great working together as a team (four of us) to collaborate and our final product was pretty cool!
 
 #### Our best model involved bagging a few different classifiers including logistic regression, SVC, and random forest.  We achieved ~85% accuracy and a similar f1 score, which was close to some of the top scores in [academic papers](http://www.ijmlc.org/vol5/544-C039.pdf).-->
 
-<h2><strong>Initial Exploration</strong></h2>
-<h4>Here's the breakdown of the nominal dependent variable which we are trying to predict.  Nominal values can be tricky - the difference between None (far left) and Low (2nd to left) may be much different than from Low to Medium (center).</h4>
-<p><img alt="uci" src="/images/hd2.png"></p>
-<h4>At this point, we needed to make a decision about how to handle our dependent variable.  Nominal variables are <em>tricky</em> - they can be treated as continuous or aggregated as binary outcomes.</h4>
-<h4>We decided to treat our dependent variable as binary - mainly because we wanted to maintain high interpretability for the user.  Furthermore, many of the academic papers we were interested in applied the same treatement --- this made comparisons possible.</h4>
-<p><img alt="uci" src="/images/hd3.png"></p>
-<h4><em>This will be updated soon!</em></h4>
+<!--## **Initial Exploration**
+
+#### Here's the breakdown of the nominal dependent variable which we are trying to predict.  Nominal values can be tricky - the difference between None (far left) and Low (2nd to left) may be much different than from Low to Medium (center).  
+
+![uci](/images/hd2.png)
+
+#### At this point, we needed to make a decision about how to handle our dependent variable.  Nominal variables are *tricky* - they can be treated as continuous or aggregated as binary outcomes.  
+
+#### We decided to treat our dependent variable as binary - mainly because we wanted to maintain high interpretability for the user.  Furthermore, many of the academic papers we were interested in applied the same treatement --- this made comparisons possible.
+
+![uci](/images/hd3.png)-->
   </div>
   <div class="tag-cloud">
     <p>
