@@ -4,7 +4,7 @@
 			"name" 		: "All Players",
 			"info" 		: "All_Players",
 			"parent"	: "null",
-			"value"		: 10,
+			"value"		: [10,11],
 			"children" 	: [
 				{
 					"name" 		: "Slower, Closer-Range",
@@ -285,9 +285,9 @@
 			{
 				"Position": "",
 				"Cluster": "Complementary",
+				"Season": "2015-16",
 				"Team": "",
-				"Player": "RJ Hunter",
-				"Season": "2015-16"
+				"Player": "RJ Hunter"
 			},
 			{
 				"Position": "SF",
