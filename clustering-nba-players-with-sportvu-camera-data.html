@@ -96,7 +96,7 @@
 <p><span class="math">\(x_{new} = (x - \mu) / \sigma\)</span></p>
 <h4>Below is a graph showing cumulative explained variance for each principal component.  This graph is followed by a similar one, but standardizing cumulative explained variance by the number of components.</h4>
 <p><img alt="var" src="/images/var.png">
-<img alt="var2" src="/images/var2.png"></p>
+<img alt="var2" src="/images/varstd.png"></p>
 <h4>I chose 12 components because when normalized for the number of components, 75% seemed much more reasonable than the 120 components it would take to explain nearly all (99%).</h4>
 <h2><strong>Modelling</strong></h2>
 <h4>I chose to iteratively use K-Means clustering because the quality of clustering took a backseat to interpretability.  I wanted to create an easily interpretable visualization that was simple and understandable for people interested in basketball.  Although clustering iteratively misses out on the original feature space, it provides a clear structural view of intra-cluster relationships and is highly interpretable.</h4>
