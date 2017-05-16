@@ -84,15 +84,101 @@
 <p><img alt="screenshot_of_app" src="/images/screenshotnba.png"></p>
 <h2><strong>Background</strong></h2>
 <h4>The NBA has been using <a href="https://en.wikipedia.org/wiki/SportVU">SportVU Cameras</a> to record player data at 25x per second, resulting in an explosion of data in an already statistically dense sport.  In particular, new statistics such as <a href="http://stats.nba.com/players/speed-distance/">speed and distance</a> have emerged.</h4>
-<h4>I really enjoy strategic thinking and decision making and thought these statistics would unleash new insights into player and team analytics.  Specifically, I was interested in which roles players <em>actually</em> fulfill.  We traditionally rely on the somewhat arbitary label 'position' to describe how players fit within a team, but it is an extremely poor definition of the players <em>actual</em> role.</h4>
+<h4>I really enjoy strategic thinking and decision making and thought these statistics would unleash new theoretical insights into player and team analytics.  Specifically, I was interested in which roles players <em>actually</em> fulfill.  We traditionally rely on the somewhat arbitary label 'position' to describe how players fit within a team, but it is an extremely poor definition of the players <em>actual</em> role.</h4>
 <p><img alt="court" src="/images/court.png"></p>
 <h4>This new explosion of NBA data and <a href="http://www.sloansportsconference.com/wp-content/uploads/2012/03/Alagappan-Muthu-EOSMarch2012PPT.pdf">this</a> inspired me to take a closer look at player types.  How could this new data help us more accurately describe the roles of players within their team?  What are the <em>actual</em> five positions within a team?</h4>
 <h2><strong>Acquiring Data</strong></h2>
 <h4>Although there are many great resources for acquiring NBA data, I could only find one that included a rich amount of SportVu data, which I was really interested in.  I was specifically interested in the new data because it would provide <em>new</em> insights that were missed in the past.  I didn't want to just use traditional NBA statistics, I wanted to amplify them with data only SportVu cameras were picking up --- like speeds and distances.</h4>
-<h4>I scraped publically available data from the <a href="http://stats.nba.com/">NBAs Website</a>, which spanned three seasons.  There were 1200+ unique data points (unique players in unique seasons) and 800+ features (many with new data from SportVu cameras).</h4>
+<h4>I scraped publicly available data from the <a href="http://stats.nba.com/">NBAs Website</a>, which spanned three seasons.  There were 1200+ unique data points (unique players in unique seasons) and 800+ features (many with new data from SportVu cameras).</h4>
 <h2><strong>Exploratory Data Analysis</strong></h2>
-<h4>EDA is notoriously difficult in high dimensional feature spaces.   Naturally, examining 800+ different features and their combinations would be a never-ending task.  I wanted to reduce the dimensionality of the feature space before doing some poking around so I used Principal Component Analysis (PCA) to identify directions of large variation in the dataset.</h4>
-<p><em>Will be continued shortly</em></p>
+<h4>EDA is notoriously difficult in high dimensional feature spaces.   Naturally, examining 800+ different features and their combinations would be a never-ending task.  I wanted to reduce the dimensionality of the feature space by using Principal Component Analysis (PCA) to identify directions of large variation in the dataset.</h4>
+<h4>Like other variance maximizing exercises, I normalized all my features before applying PCA.</h4>
+<p><span class="math">\(x{new} = (\x - \mu) / \sigma\)</span></p>
+<h4>Below is a graph showing cumulative explained variance for each principal component.  This graph is followed by a similar one, but standardizing cumulative explained variance by the number of components.</h4>
+<p><img alt="var" src="/images/var.png">
+<img alt="var2" src="/images/var2.png"></p>
+<h4>I chose 12 components because when normalized for the number of components, 75% seemed much more reasonable than the 120 components it would take to explain nearly all (99%).</h4>
+<h2><strong>Modelling</strong></h2>
+<h4>I chose to iteratively use K-Means clustering because the quality of clustering took a backseat to interpretability.  I wanted to create an easily interpretable visualization that was simple and understandable for people interested in basketball.  Although clustering iteratively misses out on the original feature space, it provides a clear structural view of intra-cluster relationships and is highly interpretable.</h4>
+<h4>Below shows the silhoutte scores as the number of clusters increases for our first iteration using K-Means.</h4>
+<p><img alt="silhoutte_score" src="/images/silhouette.png"></p>
+<h4>This was done iteratively until there were five distinct clusters.  The optimal K at each iteration was two.  Ultimately, this resulted in the following role map which shows the process in more detail seen in the diagram below.</h4>
+<p><img alt="NBA_role_map" src="/images/nba0.png"></p>
+<h4>There are some players in counterintuitive roles for their respective positions.  For example, tall players are generally placed in near-basket positions such as Center because of their rebounding ability.  However, there were a few exceptions within these clusters.</h4>
+<h4>Below is a scatterplot of height and rebounds where values are color-coded based on their assigned cluster in the first iteration.  As you can see, there are a few exceptions - most notably Dirk Nowitzki and Tony Allen.</h4>
+<p><img alt="scatternba" src="/images/scatternba.png"></p>
+<h4>Dirk Nowitzki is actually clustered with players much smaller than he is.  He has an extremely unique playing style for someone his size and shoots a lot of shots from a far distance and is fairly quick.  It makes sense he is clustered with smaller sized players!</h4>
+<p><img alt="dirk" src="/images/dirk.png"></p>
+<h4>On the other end of the spectrum, Tony Allen fits into the cluster which tends to contain taller players.  He actually doesn't have much of an offensive game, but is an amazing defender.  Most players who share his position (SG) score lots of points and drive the action of the game.  However,  Tony traditionally plays much closer to the basket and often defends players much larger than himself.</h4>
+<p><img alt="Tony" src="/images/tony.png"></p>
+<h4>Furthermore, players within teams shifted roles when the team dynamics changed - the same players do not have identical roles from season to season.</h4>
+<h2><strong>Visualizing Results</strong></h2>
+<h4>I wanted to visualize both the final clusters and the iterative process.  It was important for people to be able to see how players were clustered along the way.  I customized a collapsable tree found <a href="https://bl.ocks.org/mbostock/4339083">here</a> and added a sortable table.</h4>
+<h4>This proved to be a good choice because it's extremely intuitive and interpretable to understand what my approach was.  It is really easy to see how players were clustered through each iteration.</h4>
+<h2><strong>What I learned</strong></h2>
+<h4>I learned a lot about dimensionality reduction techniques along the way.  Besides PCA, I was introduced to other methods such as LDA and T-SNE.  It was a valuable experience choosing which technique to use and I learned alot along the way.</h4>
+<h4>Furthermore, I learned more about various clustering algorithms and their trade-offs.  It was great to explore K-Means as it is an extremely practical clustering algorithm that is more computationally efficient than others.</h4>
+<h4>Although I'd used d3.js in the past, this was an entirely new experience customizing an existing template so heavily.  It was definitely a lot of work, but I'm grateful for the experience and happy I persevered because I really like my final product.</h4>
+<h2><strong>Further Steps</strong></h2>
+<h4>If I had more time to spend on this project, I would've explored T-SNE a bit further and done some visualizations with it.  Also, I would create additional features for my visualization that help filter clusters by team, position, etc.</h4>
+<h4>I really enjoyed this project and am grateful for what I learned and accomplished.  It is really empowering to do an entire project in a short time-frame - I learned a lot!</h4>
+<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    var location_protocol = (false) ? 'https' : document.location.protocol;
+    if (location_protocol !== 'http' && location_protocol !== 'https') location_protocol = 'https:';
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = location_protocol + '//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+    mathjaxscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
   </div>
   <div class="tag-cloud">
     <p>
