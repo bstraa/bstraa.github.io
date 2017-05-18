@@ -21,21 +21,21 @@
 
 
 <meta name="author" content="Ben Straate" />
-<meta name="description" content="Finding Traffic Lanes using OpenCV - Coming Soon!" />
+<meta name="description" content="Web Scraping and Regression Analysis for Movies." />
 <meta name="keywords" content="">
 <meta property="og:site_name" content="Ben Straate"/>
-<meta property="og:title" content="Self-Driving Cars - Finding Lane Lines"/>
-<meta property="og:description" content="Finding Traffic Lanes using OpenCV - Coming Soon!"/>
+<meta property="og:title" content="Predicting Box Office Hits"/>
+<meta property="og:description" content="Web Scraping and Regression Analysis for Movies."/>
 <meta property="og:locale" content="en_US"/>
 <meta property="og:url" content="https://bstraa.github.io/regression2.html"/>
 <meta property="og:type" content="article"/>
-<meta property="article:published_time" content="2017-01-22 10:20:00-08:00"/>
+<meta property="article:published_time" content="2016-02-28 10:20:00-08:00"/>
 <meta property="article:modified_time" content="2017-03-28 10:20:00-07:00"/>
 <meta property="article:author" content="https://bstraa.github.io/author/ben-straate.html">
 <meta property="article:section" content="articles"/>
 <meta property="og:image" content="/images/me.png">
 
-  <title>Ben Straate &ndash; Self-Driving Cars - Finding Lane Lines</title>
+  <title>Ben Straate &ndash; Predicting Box Office Hits</title>
 
 </head>
 <body>
@@ -70,9 +70,9 @@
 
 <article class="single">
   <header>
-    <h1 id="regression2">Self-Driving Cars - Finding Lane Lines</h1>
+    <h1 id="regression2">Predicting Box Office Hits</h1>
     <p>
-          Posted on Sun 22 January 2017 in <a href="https://bstraa.github.io/category/articles.html">articles</a>
+          Posted on Sun 28 February 2016 in <a href="https://bstraa.github.io/category/articles.html">articles</a>
 
 
     </p>
@@ -80,7 +80,148 @@
 
 
   <div>
-    
+    <h2><strong>Background</strong></h2>
+<h4>Who doesn't like movies? I recently did a data science project where I scraped data from <a href="http://www.boxofficemojo.com/">Box Office Mojo</a>, and got to explore some questions I had about the industry.</h4>
+<ul>
+<li>
+<h4>How can adjusted revenue be predicted?</h4>
+</li>
+<li>
+<h4>Why did some movies flop big time? (I'd bet you've never heard of Mars Needs Moms!)</h4>
+</li>
+<li>
+<h4>Which movies were surprisingly popular? (Remember The Blair Witch Project!?)</h4>
+</li>
+</ul>
+<h2><strong>Acquiring Data</strong></h2>
+<h4><a href="http://www.boxofficemojo.com">Box Office Mojo</a> has data on over 16,000 movies --- buried within a fairly unintuitive and complex layout.   This demanded some exploring to figure out the optimal strategy.</h4>
+<h4>After poking around a bit, I found an alphabetical directory which contains links to individual movie pages and other information.  I decided to scrape the links and any additional data.</h4>
+<p><img alt="Image" src="/images/bmojo1.png" title="Alphabetical List"></p>
+<h4>These links allowed me navigate through even more pages -where the true gems were located.  Although I wasn't sure everything would be useful, erring on the cautious side seemed wise.  Here's a screen shot (this movie <em>brings me back!</em>):</h4>
+<p><img alt="Image" src="/images/bmojo2.png" title="Individual Movie Page"></p>
+<h4>Pandas works very well with nested dictionaries --- I created a Python script to pickle them in preparation for the next steps.</h4>
+<h2><strong>Cleaning</strong></h2>
+<h4>After scraping and loading my data into Pandas, there were several issues which emerged before I could get going on analysis:</h4>
+<ul>
+<li>
+<h4><strong>NA values</strong> - After looking into these further, some movies (specifically older ones) didn't have much data.  I had to drop these after ensuring there wasn't an error in my scraper.</h4>
+</li>
+<li>
+<h4><strong>Removing dollar signs, etc.</strong></h4>
+</li>
+<li>
+<h4><strong>Converting strings to datetime objects or integers</strong> - Many values had datatypes which were unsuitable for any statistical analysis, so I had to convert them.</h4>
+</li>
+<li>
+<h4><strong>Adjusting prices for inflation</strong> - I was mindful to use the built-in adjuster when scraping, but I noticed it didn't adjust <em>all</em> prices.  I had to adjust other prices for inflation.</h4>
+</li>
+</ul>
+<h4>After these steps, I was pretty excited to get going on next steps.  Whoever said much of data science is not modelling was <em>not</em> joking!  I wanted to figure out what is predictive of worldwide revenue.</h4>
+<h2><strong>Exploration</strong></h2>
+<h4>It was helpful to develop some intuition by visualizing variables --- I was curious to see how they related to worldwide revenue.</h4>
+<h4>Pandas and seaborn makes this easy and enjoyable (the visualizations are beautiful!) --- below is a heatmap for the correlations of continuous variables.</h4>
+<p><img alt="Image" src="/images/pearson.png" title="Pearson"></p>
+<h4>I also wanted to look into how release month and rating related to worldwide revenue.  I really prefer violinplots to barplots or boxplots --- it gives a clearer picture of the distributions.</h4>
+<p><img alt="Image" src="/images/month.png" title="Month"></p>
+<h4>Above we see that adjusted worldwide revenue <strong>tends</strong> to be larger for months April, May, June, November, and December.</h4>
+<p><img alt="Image" src="/images/rating.png" title="Rating"></p>
+<h4>Observe from obove that G rated movies have the highest mean adjusted worldwide revenue, with PG and PG-13 movies varying the most --- and making up a big chunk of the highest AWR.</h4>
+<p><img alt="Image" src="/images/bmojo3.png" title="Plot1"></p>
+<h4>I wanted to continue exploring variables to see if there was a linear relationship between them and adjusted worldwide revenue.  I started out with using simple linear regression, formally:</h4>
+<h1><span class="math">\(y_{i} = \beta_{0} + \beta_{1}x_{i1} + \epsilon_{i}\)</span></h1>
+<h4>Formally:</h4>
+<h4><span class="math">\(H_{0}: \beta_{1} = 0\)</span></h4>
+<h4><span class="math">\(H_{A}: \beta_{1} \neq 0\)</span></h4>
+<h4><strong>Below</strong> is the simple linear regression for adjusted budget:</h4>
+<p><img alt="Image" src="/images/bmojo4.png" title="Plot2"></p>
+<h4>Above, we minimized the residual sum of squares to find our line of best fit, which is the same as maximizing the likelihood of <span class="math">\(\beta_{0}\)</span> and <span class="math">\(beta_{1}\)</span>.  (There is some interesting discussion about MLE and RSS <a href="http://stats.stackexchange.com/questions/143705/maximum-likelihood-method-vs-least-squares-method">here</a>.)</h4>
+<p><img alt="Image" src="/images/math1.png" title="Math1"></p>
+<h4>The p-value for <span class="math">\(\beta_{1} &lt; .001\)</span> and our 95% CI is (2.658, 2.911), so we can reject <span class="math">\(H_{0}\)</span>.   Specifically, our initial model has a decent adjusted R-squared of .439 (which is the same as R-squared, in this case).  This model can explain nearly 44% of the variance in Adjusted Worldwide Revenue around it's mean - not bad!</h4>
+<h4><strong>However</strong>, after analyzing the residuals it is clear our model violates linear regression assumptions - the residuals appear heteroscedastic.  There is a glimpse of this because of the cone shape (lighter red in plot above) variance around my regression line.  After a closer look, our suspicions are confirmed:</h4>
+<p><img alt="Image" src="/images/bmojo5.png" title="Residuals"></p>
+<h4>I decided to try a few variable transformations and settled on applying the squareroot to both variables (independent and dependent).  The relationships are now more linear.  Although there is still slight heteroscedacity, it has greatly improved.   In reality, the assumptions of linear regression are rarely perfectly met, but this seems reasonable enough to work with.   Checkout the regression plot and residuals below:</h4>
+<p><img alt="Image" src="/images/screenshot.png" title="Model"></p>
+<h4>The <span class="math">\(R_{adj}^2\)</span> improved to .478 and p-value remained &lt;.001.  Let's keep going!</h4>
+<h2><strong>Further Analysis and Modelling</strong></h2>
+<h4>I continued to explore different variables and evaluate the residuals and regressions.  Specifically, I wanted to make sure everything looked normal to evaluate whether I needed to transform variables or had some insights into better features to engineer.</h4>
+<h4>Finally, <span class="math">\(R_{adj}^2\)</span> improved to ~.61 after taking including features for month, number of opening theatres, and runtime.  I really liked using Python's statsmodels library because it's great for more statistical purposes with it's reporting tools.</h4>
+<h4>I also wanted to see if our model could explain why 'The Blair Witch Project' was so successful and why 'Mars Needs Moms' flopped so hard.  Below are the values for these movies:</h4>
+<p><img alt="Image" src="/images/blairmars.png" title="Values"></p>
+<h4>'The Blair Witch Project' had nearly 10 times more worldwide revenue, despite having a lower runtime, less opening theatres, and a far lower budget than 'Mars Needs Moms'.  However, I think the <em>timing</em> for the BWP was especially important - releasing a movie targeting teens and young adults near popular months could be a recipe for the viral movie it was.</h4>
+<h4>After looking a little closer, the BWP was released in early July - when the target audience had summer break from school.  I'm hesitant to delve any deeper into the emotional appeal of either film, but it'd be interesting to see how prevalent viral films are in popular months.</h4>
+<h4>After this, I wanted to move to Sci-kit learn because it has more optionality when it comes to tuning hyper parameters using cross validation tools.  Time to jump in!</h4>
+<p><img alt="Image" src="/images/bmojo8.png" title="JumpIn"></p>
+<h2><strong>Final Model and Validation</strong></h2>
+<h4>I wanted to check out the cross validation tools in sci-kit learn (does anyone say Sklearn?) so  I experimented with Lasso (L1) and Ridge (L2) regularization, but ultimately settled on ElasticNet (which uses both).</h4>
+<h4>The <a href="http://scikit-learn.org/stable/modules/generated/sklearn.linear_model.ElasticNetCV.html#sklearn.linear_model.ElasticNetCV">ElasticNetCV module</a> is extremely powerful - it will perform K-Fold cross validation and choose the best parameters for you.</h4>
+<h4>After training my model on 2/3 of the data using K-Fold ElasticNetCV, it performed well on the unseen data with <span class="math">\(R_{adj}^2\)</span> ~ .65 which wasn't too bad!</h4>
+<h2><strong>What I Learned</strong></h2>
+<h4>Although it could have been faster to automate building the model, I really learned a lot by going step-by-step and evaluating it myself.  It was also really helpful to develop an understanding of the data beforehand.</h4>
+<h4>I also learned how to webscrape and handle a plethora of inevitable errors.  BeautifulSoup was pretty time consuming, - I would like to try out Selenium in the future to see how it compares.</h4>
+<h4>Although I certainly learned a lot, there are definitely things I'd do further.</h4>
+<p><img alt="Image" src="/images/steps.png" title="Further Steps"></p>
+<h2><strong>Further Steps</strong></h2>
+<h4>There are more economic indicators and data available about the entertainment industry.  It would also be interesting to look further into trends and seasonal effects.  Also, it would be interesting to analyze social media or wikipedia.</h4>
+<h4>If I had more time, there are a lot more things I'd like to take a look (or closer look!) into.  There is so much data publicly available that it wouldn't be too difficult to supplement my dataset with economic, entertainment, and social data.  Furthermore, I'd like to take a closer look at trends and seasonality.</h4>
+<h4>Additionally, I'd optimize and more thoroughly test my code, and even automate a lot of the modelling.  I think that would save a lot of time and possibly even be re-usable for other projects.</h4>
+<h4>I really enjoyed this project - I thought it was a good overall view of the data science process.  Ultimately, data scraping can be an extremely useful tool --- not every dataset is nice and neat like in academia or kaggle.</h4>
+<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    var location_protocol = (false) ? 'https' : document.location.protocol;
+    if (location_protocol !== 'http' && location_protocol !== 'https') location_protocol = 'https:';
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = location_protocol + '//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+    mathjaxscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
   </div>
   <div class="tag-cloud">
     <p>
